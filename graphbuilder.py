@@ -54,7 +54,7 @@ def addEdges(g: graphviz.Graph, txt: str, nickNames = {}):
     for edge in re.finditer(EdgeMatch, txt):
 
         edgeKwargs = {}
-        nodeNames = [""]*2
+        nodeNames = [None]*2
 
         for i, node in enumerate(edge.group("name1", "name2")):
             if node in nickNames:
@@ -62,8 +62,12 @@ def addEdges(g: graphviz.Graph, txt: str, nickNames = {}):
             else:
                 nodeDetails = re.match(NodeMatch, node)
                 if not nodeDetails:
-                    raise NameError(f"""Node {node} is invalid""")
+                    print(f"""Node {node} is invalid skipping the edge {edge}""")
+                    continue
                 nodeNames[i] = f"""{nodeDetails.group("type")}{nodeDetails.group("num")}"""
+
+        if None in nodeNames:
+            continue
 
         connection: str = edge.group("connector")
         if connection in ("<->", "-"):
