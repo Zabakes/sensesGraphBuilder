@@ -1,0 +1,16 @@
+digraph {
+	PP1 [label="Physical Phenomenon" shape=octagon xlabel="PP:1"]
+	ET1 [label="Energy Translation" shape=invtrapezium xlabel="ET:1"]
+	PR1 [label="Processing result" shape=ellipse xlabel="PR:1"]
+	PR2 [label="Dependent Processing result" shape=ellipse xlabel="PR:2"]
+	OM1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" WIDTH="100"><TR><TD SIDES="TB" WIDTH="100">OM:1</TD></TR></TABLE>> shape=plaintext]
+	PR3 [label="Processing result Dependent on all others" shape=ellipse xlabel="PR:3"]
+	OM2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLPADDING="4" WIDTH="100"><TR><TD SIDES="TB" WIDTH="100">OM:2</TD></TR></TABLE>> shape=plaintext]
+	PP1 -> ET1 [dir=forward]
+	ET1 -> PR1 [dir=forward]
+	PR1 -> PR2 [dir=forward]
+	PR2 -> ET1 [label=comment dir=forward]
+	PR2 -> OM1 [dir=forward]
+	OM1 -> PR3 [dir=forward]
+	PR3 -> OM2 [dir=forward]
+}

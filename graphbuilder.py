@@ -1,7 +1,5 @@
-from genericpath import exists
 import graphviz
 import re
-import sys
 
 NodeMatch = re.compile(r"((?P<label>[\w ]+):)?(?P<type>PP|PR|ET|OM):(?P<num>[0-9]+)", flags=re.MULTILINE)
 EdgeMatch = re.compile(r"""(?P<name1>[\w :]+)(?P<connector><?->?)(?P<name2>[\w :]+)\s*(?P<comment>#[\w ]*)?""", flags=re.MULTILINE)
@@ -84,20 +82,35 @@ def addEdges(g: graphviz.Graph, txt: str, nickNames = {}):
     return g
 
 
-if __name__ == "__main__":
-
-    import os
+def makeGraph(graphDescr, graph=None,
+              name: str = None,
+              filename: str = None,
+              format: str = "svg",
+              gKwargs={}):
     
+    g = graphviz.Digraph(name=name,
+                         filename=filename,
+                         format=format,
+                         engine="dot")
+
+    g, nickNames = addNodes(g, graphDescr)
+    g = addEdges(g, graphDescr, nickNames)
+
+    return g
+
+
+if __name__ == "__main__":
+    from genericpath import exists
+    import sys
+
     if not exists(sys.argv[1]):
         print("Please pass a path to a text file describing your graph as the only argument to this script")
 
     with open(sys.argv[1], "r") as f:
         graphDescr = f.read()
 
-    g = graphviz.Digraph('G', filename=".".join(sys.argv[1].split(".")[:-1]), format="svg", engine="dot")
-    #g.graph_attr["rankdir"] = "BT"
-
-    g, nickNames = addNodes(g, graphDescr)
-    g = addEdges(g, graphDescr, nickNames)
+    g = makeGraph(graphDescr,
+                  filename=".".join(((sys.argv[2] if len(sys.argv) > 2 else sys.argv[1]).split(".")[:-1])),
+                  format=sys.argv[2].split(".")[-1] if len(sys.argv) > 2 else "svg")
 
     g.render()

@@ -15,16 +15,31 @@ An edge is denoted either `<NODE><Connector><NODE>`
 An example graph is:  
 
 \<g>  (Tag for makeGrapsInMD)
-<g>
+![graph](Generated\ReadME_E\Graph0.svg)
+<details>
+<summary> Graph body </summary>
+
+
+
 `Physical Phenomenon:PP:1->Energy Translation:ET:1`  
+
 `Energy Translation->Processing result:PR:1`  
+
 `PR:1->Dependent Processing result:PR:2`  
+
 `PR:2->ET:1 #comment`  
+
 `PR:2->OM:1`  
+
 `inline comment can be made wherever`  
+
 `OM:1->Processing result Dependent on all others:PR:3`  
+
 `PR:3->OM:2`
-</g>
+
+
+
+</details>
 \</g>
 
 This gets turned into :  
